@@ -11,7 +11,6 @@ describe('Create community flow should', function() {
     it(' create a community with a credit card payment method, bike for a risk object selection and no invite friends', function() {
         browser.get(browser.params.site + '/cotizar');
         browser.waitForAngular();
-        //element(By.model('cwc.CreateCommunityDTO.riskObject')).click();
         element(by.cssContainingText('option', 'Bicicleta')).click();
         element(by.name('valorEvento')).sendKeys(createData.data.value);
         var button = element(by.css('.btnUnique'));
@@ -45,12 +44,18 @@ describe('Create community flow should', function() {
 
         element(by.model('riskObjectProperties.brand')).sendKeys(createData.data.payment.riskObject.brand);
         element(by.model('riskObjectProperties.reference')).sendKeys(createData.data.payment.riskObject.reference);
-        browser.pause();
-        var send = element(by.css('.btnPrimary'));
+        var send = element(by.id('submitRiskObject'));
         browser.wait(ec.elementToBeClickable(send), 5000).then(function(){
             send.click();
         });
-        element(by.css(['ng-click="goToInviteFriends()"'])).click();
-
+        var invite = element(by.css('[ng-click="goToInviteFriends()"]'));
+        browser.wait(ec.elementToBeClickable(invite), 5000).then(function(){
+            invite.click();
+        });
+        var goToCommunity = element(by.id('goToCommunity'));
+        browser.wait(ec.elementToBeClickable(goToCommunity), 5000).then(function(){
+            goToCommunity.click();
+        });
+        expect(element(by.css('.titleModules')).getText() === 'Información de tu objeto asegurado ');
     });
 });

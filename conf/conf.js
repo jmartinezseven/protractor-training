@@ -1,3 +1,5 @@
+var SpecReporter = require('../conf/node_modules/jasmine-spec-reporter/src/jasmine-spec-reporter');
+
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: [
@@ -11,12 +13,15 @@ exports.config = {
             password: '159357852456'
         }
     },
+    allScriptsTimeout: 20000,
     plugins: [{
         package: 'protractor-console',
-        logLevels: ['severe']
+        logLevels: ['debug', 'info']
     }],
 
     onPrepare: function() {
+        //Configura el reporter
+        jasmine.getEnv().addReporter(new SpecReporter());
         var site = browser.params.site;
         browser.get(site);
         element(by.css('.btn-ingresar-nav')).click();
@@ -49,7 +54,7 @@ exports.config = {
         // If true, print colors to the terminal.
         showColors: true,
         // Default time to wait in ms before a test fails.
-        defaultTimeoutInterval: 30000,
+        defaultTimeoutInterval: 1800000,
         // Function called to print jasmine results.
         print: function() {},
         // If set, only execute specs whose names match the pattern, which is
